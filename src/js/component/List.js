@@ -3,15 +3,27 @@ import { Task } from "./Task";
 import { TaskCounter } from "./TaskCounter";
 
 export const List = () => {
-	const [tasklist, settasklist] = useState(["walk the dog"]);
+	const [tasklist, settasklist] = useState([
+		{
+			label: "walk the dog",
+			done: false,
+		},
+	]);
 	const [inputValue, setImputValue] = useState("");
 
 	const onChangeHandler = (e) => {
 		setImputValue(e.target.value);
 	};
+// Warning!
+//la idea central es poder asociar el label al valor donde se esta agregando para reflejarlo en el api.
+
 
 	const addNewTask = (e) => {
 		if (e.key === "Enter") {
+			const tasknewObject = {
+				label: Task.value,
+				done: false
+			};
 			const newtaskList = [...tasklist];
 			newtaskList.push(inputValue);
 			settasklist(newtaskList);
@@ -40,7 +52,11 @@ export const List = () => {
 					/>
 				</li>
 				{tasklist.map((task, index) => (
-					<Task task={task} key={index} deleteTask={deleteTask} />
+					<Task
+						task={task.label}
+						key={index}
+						deleteTask={deleteTask}
+					/>
 				))}
 				<TaskCounter count={tasklist.length} />
 			</ul>
